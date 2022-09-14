@@ -135,7 +135,7 @@ standard names. */
 /* USER CODE BEGIN Defines */   	      
 /* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
 
-#define configUSE_NEWLIB_REENTRANT 1 // Required for thread-safety of newlib sprintf, strtok. Also helps solve ST USB memory management issue http://www.nadler.com/embedded/newlibAndFreeRTOS.html
+#define configUSE_NEWLIB_REENTRANT 1 // Required for thread-safety of newlib sprintf. Also helps solve ST USB memory management issue http://www.nadler.com/embedded/newlibAndFreeRTOS.html
 
 /* USER CODE END Defines */ 
 
