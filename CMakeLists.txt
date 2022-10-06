@@ -1,33 +1,39 @@
 cmake_minimum_required(VERSION 3.14)
 
-# Set the target name based on the name of the binary directory. This allows for the HAL to 
-# be build with different configurations when included by different projects. 
-get_filename_component(TARGET_NAME ${CMAKE_CURRENT_BINARY_DIR} NAME)
+set(freertos_internal_dir ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "")
 
-# Hardcoding the compiler and arch since all our projects currently use the same one
-# Add new targets to this file if other compiler/arch combinations need to be supported
-set(FREERTOS_COMPILER_GCC GCC)
-set(FREERTOS_ARCH_ARM_CM4F ARM_CM4F)
+function(validate_freertos_config freertos_config_folder)
+    if (NOT EXISTS ${freertos_config_folder}/FreeRTOSConfig.h)
+        message(FATAL_ERROR "Make sure FreeRTOSConfig.h exists in freertos_config_folder(${freertos_config_folder})")
+    endif()
+endfunction()
 
-add_library(${TARGET_NAME}
-    STATIC
-    croutine.c
-    event_groups.c
-    list.c
-    queue.c
-    stream_buffer.c
-    tasks.c
-    timers.c
-    portable/${FREERTOS_COMPILER_GCC}/${FREERTOS_ARCH_ARM_CM4F}/port.c
-)
+function(unspun_add_freertos target_name freertos_config_folder)
 
-if (NOT EXISTS ${FREERTOS_CONFIG_FOLDER}/FreeRTOSConfig.h)
-    message(FATAL_ERROR "Make sure FreeRTOSConfig.h exists in FREERTOS_CONFIG_FOLDER(${FREERTOS_CONFIG_FOLDER})")
-endif()
+    validate_freertos_config(${freertos_config_folder})
+    
+    # Hardcoding the compiler and arch since all our projects currently use the same one
+    # Add new targets to this file if other compiler/arch combinations need to be supported
+    set(FREERTOS_COMPILER_GCC GCC)
+    set(FREERTOS_ARCH_ARM_CM4F ARM_CM4F)
 
-target_include_directories(${TARGET_NAME}
-    PUBLIC
-    include
-    portable/${FREERTOS_COMPILER_GCC}/${FREERTOS_ARCH_ARM_CM4F}
-    ${FREERTOS_CONFIG_FOLDER}
-)
+    add_library(${target_name}
+        STATIC
+        croutine.c
+        event_groups.c
+        list.c
+        queue.c
+        stream_buffer.c
+        tasks.c
+        timers.c
+        portable/${FREERTOS_COMPILER_GCC}/${FREERTOS_ARCH_ARM_CM4F}/port.c
+    )
+
+    target_include_directories(${target_name}
+        PUBLIC
+        include
+        portable/${FREERTOS_COMPILER_GCC}/${FREERTOS_ARCH_ARM_CM4F}
+        ${freertos_config_folder}
+    )
+
+endfunction()
