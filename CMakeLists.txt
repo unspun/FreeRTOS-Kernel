@@ -19,20 +19,20 @@ function(unspun_add_freertos target_name freertos_config_folder)
 
     add_library(${target_name}
         STATIC
-        croutine.c
-        event_groups.c
-        list.c
-        queue.c
-        stream_buffer.c
-        tasks.c
-        timers.c
-        portable/${FREERTOS_COMPILER_GCC}/${FREERTOS_ARCH_ARM_CM4F}/port.c
+        ${freertos_internal_dir}/croutine.c
+        ${freertos_internal_dir}/event_groups.c
+        ${freertos_internal_dir}/list.c
+        ${freertos_internal_dir}/queue.c
+        ${freertos_internal_dir}/stream_buffer.c
+        ${freertos_internal_dir}/tasks.c
+        ${freertos_internal_dir}/timers.c
+        ${freertos_internal_dir}/portable/${FREERTOS_COMPILER_GCC}/${FREERTOS_ARCH_ARM_CM4F}/port.c
     )
 
     target_include_directories(${target_name}
         PUBLIC
-        include
-        portable/${FREERTOS_COMPILER_GCC}/${FREERTOS_ARCH_ARM_CM4F}
+        ${freertos_internal_dir}/include
+        ${freertos_internal_dir}/portable/${FREERTOS_COMPILER_GCC}/${FREERTOS_ARCH_ARM_CM4F}
         ${freertos_config_folder}
     )
 
