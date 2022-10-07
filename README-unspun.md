@@ -21,8 +21,9 @@ Also see the test_cmake folder for working example.
 
 ## Run the CMake build tests
 ### Pre-Reqs
-1. ARM GCC tool chain is installed and has been added to the PATH
-2. Make is installed and has been added to the PATH
+1. CMake is installed and has been added to the PATH
+2. ARM GCC tool chain is installed and has been added to the PATH
+3. Make is installed and has been added to the PATH
 ### Build
 1. Configure build (first time only)
 ```
