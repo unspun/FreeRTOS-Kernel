@@ -1,4 +1,4 @@
-name: HAL Lib CMake Test
+name: FreeRTOS Lib CMake Test
 
 on:
   push:
